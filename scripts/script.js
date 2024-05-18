@@ -122,7 +122,7 @@ function midSquare(key) {
 }
 
 function moduloArithmetic(key) {
-    return key % 47;;
+    return key % 47;
 }
 
 // --- HASH FUNCTIONS ---
