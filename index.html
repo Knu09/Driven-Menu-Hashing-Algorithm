@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu-Driven</title>
+    <script defer src="scripts/script.js"></script>
+</head>
+<body>
+
+<form id="form">
+    <label for="hashFunctions">
+        <select name="menu1" id="hashFunctions">
+            <option value="0">Choose a Hashing Function</option>
+            <option value="1">Add and Fold</option>
+            <option value="2">Digit Selection</option>
+            <option value="3">Mid-square Method</option>
+            <option value="4">Modulo Arithmetic</option>
+        </select>
+    </label>
+    <label for="collisions">
+        <select name="menu2" id="collisions">
+            <option value="0">Collision Resolution Policy</option>
+            <option value="1">Bucket Chaining</option>
+            <option value="2">Linear Probing</option>
+            <option value="3">Second Hash Function</option>
+        </select>
+    </label>
+    <label for="word">
+        Enter the word
+        <input required placeholder="Enter a word here" id="word" type="text">
+        <button onclick="convertButton()">Enter</button>
+    </label>
+    <div>
+        ASCII code:
+        <span id="result"></span>
+    </div>
+</form>
+</body>
+</html>
