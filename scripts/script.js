@@ -1,9 +1,12 @@
 
 const word = document.getElementById("word");
 function convertButton () {
-    console.log(getHashFunction())
-
-    convertASCII(word.value);
+    errorTrapping();
+    if (!errorMessage.classList.contains('active') && !errorMessage2.classList.contains('active')
+    && !errorMessage3.classList.contains('active')) {
+        hideDescriptionGuide();
+        convertASCII(word.value);
+    }
 }
 
 const code = document.getElementById('result');
@@ -16,10 +19,12 @@ function convertASCII(word) {
     for(let i = 0; i < word.length; i++) {
         ASCII += word.charCodeAt(i);
     }
-    ASCII = parseInt(ASCII)
-    code.innerHTML = ASCII;
+    ASCII = Number(ASCII);
+    console.log(ASCII)
+    code.innerHTML = BigInt(ASCII);
 
     myTable.setItem(ASCII, word);
+    capacitySize++;
 
     //Resets the input value
     resetInput();
@@ -32,6 +37,30 @@ function resetInput () {
     word.value = "";
 }
 
+const errorMessage = document.querySelector('.error-message1')
+const errorMessage2 = document.querySelector('.error-message2')
+const errorMessage3 = document.querySelector(".error-message3")
+
+function errorTrapping() {
+    if (word.value === "") {
+        errorMessage.classList.add('active')
+    } else {
+        errorMessage.classList.remove('active')
+    }
+
+    if (getCollisionsOption() === "0") {
+        errorMessage2.classList.add('active')
+    } else {
+        errorMessage2.classList.remove('active')
+    }
+
+    if (getHashFunction() === "0") {
+        errorMessage3.classList.add('active')
+    } else {
+        errorMessage3.classList.remove('active')
+    }
+}
+
 const hashFunctionOption = document.getElementById("hashFunctions");
 const collisionOption = document.getElementById("collisions")
 function getHashFunction() {
@@ -42,41 +71,35 @@ function getCollisionsOption() {
     return collisionOption[collisionOption.selectedIndex].value
 }
 
-function hashFunction(key, hashFunc, tableSize) {
+function hashFunction(key, hashFunc, tableSize, prime) {
     switch (hashFunc) {
         case "0":
-            console.log('Default Option');
             return defaultHash(key);
         case '1':
-            console.log('Add and Fold');
             return addAndFold(key, tableSize)
         case '2':
-            console.log('Digit Selection');
             return digitSelect(key)
         case '3':
-            console.log('Mid-square Method');
             return midSquare(key)
         case '4':
-            console.log('Modulo Arithmetic');
-            return moduloArithmetic(key)
+            return moduloArithmetic(key, prime)
         default:
             return defaultHash(key)
     }
 }
 
-function collisionResolution(table, i, key, value, option) {
+function collisionResolution(table, i, key, value, option, prime) {
     switch (option) {
         case "0":
-            console.log("Default Option");
+            console.log("Please choose an option")
             break;
         case "1":
-            console.log("Bucket Chaining");
             return bucketChaining(key, value, i, table)
         case "2":
-            console.log("Linear Probing")
             return linearProbing(key, value, i, table)
         case "3":
-            console.log('Second Hash Function')
+            console.log("secondHash")
+            return secondHashFunction(key, value, i, table, prime);
     }
 }
 
@@ -91,6 +114,7 @@ function digitSelect(key) {
 }
 
 function addAndFold(key, tableSize) {
+    key = BigInt(key);
     let sum = numberToArray(key).reduce((acc, num) => acc + num, 0)
     while (sum >= tableSize) {
         sum = numberToArray(sum).reduce((acc, num) => acc + num, 0)
@@ -121,8 +145,8 @@ function midSquare(key) {
     return parseInt(middleLeftDigit);
 }
 
-function moduloArithmetic(key) {
-    return key % 47;
+function moduloArithmetic(key, prime) {
+    return key % prime;
 }
 
 // --- HASH FUNCTIONS ---
@@ -149,29 +173,66 @@ function linearProbing(key, value, i, table) {
     return table[idx] = [key, value];
 }
 
+function secondHashFunction(key, value, i, table, prime) {
+    let secondHashKey = secondHash(i, prime)
+    let hash = i;
+    let idx = 0;
+    while (table[hash] !== undefined) {
+        idx++
+        hash = (i + idx * secondHashKey) % table.length;
+    }
+    return table[hash] = [key, value];
+}
+
+
+function secondHash(key, prime) {
+    let hash = prime - (key % prime);
+    return hash === 0 ? 1 : hash;
+}
+
 // --- COLLISION RESOLUTIONS ---
+
+const clearButton = document.querySelector('.clear');
+const programContainer = document.querySelector('.hash-table')
+
+const capacityValue = document.querySelector('.capacity-value')
+let capacitySize = 1;
+clearButton.addEventListener('click',() => {
+    activeDescriptionGuide()
+    capacityValue.innerText = `0/50`
+    capacitySize = 1;
+    myTable.table = [];
+    programContainer.innerHTML = ``;
+})
+
+
 
 class HashTable {
     // Capacity of array is n = 50;
     table = new Array(50);
 
     setItem = (key, value) => {
-        const idx = hashFunction(key, getHashFunction(), this.table.length);
+        const prime = 47;
+        const idx = hashFunction(key, getHashFunction(), this.table.length, prime);
+
+        // Conduct a resolution if a collision occurs
         if (this.table[idx]) {
-            collisionResolution(this.table, idx, key, value, getCollisionsOption());
+            collisionResolution(this.table, idx, key, value, getCollisionsOption(), prime);
         } else {
             this.table[idx] = [key, value]
         }
+        hashKeyValue.innerText = idx;
+        capacityValue.innerText = `${capacitySize}/50`
         console.log(this.table)
     }
 
-    getItem = key => {
-        const idx = hashFunction(key);
-        if (!this.table[idx]) {
-            return null;
-        }
-        return this.table[idx].find(x => x[0] === key);
-    }
+    // getItem = key => {
+    //     const idx = hashFunction(key);
+    //     if (!this.table[idx]) {
+    //         return null;
+    //     }
+    //     return this.table[idx].find(x => x[0] === key);
+    // }
 }
 
 function numberToArray(ASCII) {
@@ -190,29 +251,52 @@ HashTable.prototype.size = function () {
     return count;
 }
 
-// myTable.setItem(2232, "Christian Dela TOrre");
-// myTable.setItem(2233, "Will")
+const hashKeyValue =  document.querySelector('.hash-key');
 
 // --- Data Visualization ---
 function addHashBox () {
 
-    const programContainer = document.querySelector('.program-container');
+    const programContainer = document.querySelector('.hash-table');
     let boxHTML = '';
 
     for (let i = 0; i < myTable.table.length; i++) {
         if (myTable.table[i]) {
+            let hashTable = myTable.table;
+            let bucketChain = "";
+
+            let containsArray = hashTable[i].some(elem => Array.isArray(elem))
+            if(containsArray) {
+                let translateXValue = 0;
+
+                for (let j = 2; j < hashTable[i].length; j++) {
+                    const value = myTable.table[i][j][1];
+                    let translateXValue = 210 * (j - 1);
+
+                    bucketChain +=
+                        `
+                    <div class="box bucket-chain" style="transform: translateX(${translateXValue}px)">
+                        <div class="key"><span>${i}</span></div>
+                        <div class="value"><span>${value}</span></div>
+                    </div>
+                    `
+                }
+
+            }
+
             boxHTML +=
-                `
+            `
             <div class="box">
                 <div class="key"><span>${i}</span></div>
                 <div class="value"><span>${myTable.table[i][1]}</span></div>
+                ${bucketChain}
             </div>
-        `
+            `
         }
     }
 
     programContainer.innerHTML = boxHTML;
 }
+
 
 
 

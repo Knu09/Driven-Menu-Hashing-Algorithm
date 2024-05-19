@@ -7,6 +7,10 @@
     <script defer src="scripts/styleScript.js"></script>
     <link rel="stylesheet" href="styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!--FONT AWESOME-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
 </head>
 <body>
 <header>
@@ -14,48 +18,79 @@
 </header>
 <main id="main">
     <div class="form-container">
-        <div class="title-container">
-            <h1 class="title">Menu-Driven Program</h1>
-            <hr>
+        <div class="program-container">
+            <div class="title-container">
+                <h1 class="title">Menu-Driven Program</h1>
+            </div>
+            <form autocomplete="off" id="form" method="post">
+                <label for="hashFunctions">
+                    <div class="select">
+                        <select required class="selectCustom" name="menu1" id="hashFunctions">
+                            <option value="0">Choose a Hashing Function</option>
+                            <option value="1">Add and Fold</option>
+                            <option value="2">Digit Selection</option>
+                            <option value="3">Mid-square Method</option>
+                            <option value="4">Modulo Arithmetic</option>
+                        </select>
+                    </div>
+                    <div class="error-message error-message3">Please select a desired hash function.</div>
+                </label>
+                <label for="collisions">
+                    <div class="select">
+                        <select required class="selectCustom" name="menu2" id="collisions">
+                            <option value="0">Collision Resolution Policy</option>
+                            <option value="1">Bucket Chaining</option>
+                            <option value="2">Linear Probing</option>
+                            <option value="3">Second Hash Function</option>
+                        </select>
+                    </div>
+                    <div class="error-message error-message2">Please choose a collision resolution.</div>
+                </label>
+                <div class="input-container">
+                    <label for="word">Enter a word/s</label>
+                    <input required placeholder="Enter a word/s here..." id="word" type="text">
+                    <div class="error-message error-message1">Please enter a word/s above</div>
+                </div>
+                <button class="button" id="confirm-btn" onclick="convertButton()">CONFIRM</button>
+                <div class="hashing-details">
+                    <div>
+                        <i class="fa-solid fa-key fa-icon"></i>
+                        <span class="hash-key key-value">0</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <i class="fa-regular fa-file-code fa-icon"></i>
+                        <span id="result" class="key-value ascii-value">0</span>
+                    </div>
+                </div>
+            </form>
         </div>
-        <form autocomplete="off" id="form">
-            <label for="hashFunctions">
-                <div class="select">
-                    <select required class="selectCustom" name="menu1" id="hashFunctions">
-                        <option value="0">Choose a Hashing Function</option>
-                        <option value="1">Add and Fold</option>
-                        <option value="2">Digit Selection</option>
-                        <option value="3">Mid-square Method</option>
-                        <option value="4">Modulo Arithmetic</option>
-                    </select>
-                </div>
-            </label>
-            <label for="collisions">
-                <div class="select">
-                    <select required class="selectCustom" name="menu2" id="collisions">
-                        <option value="0">Collision Resolution Policy</option>
-                        <option value="1">Bucket Chaining</option>
-                        <option value="2">Linear Probing</option>
-                        <option value="3">Second Hash Function</option>
-                    </select>
-                </div>
-            </label>
-            <div class="input-container">
-                <label for="word">Enter a word/s</label>
-                <input autocomplete="false" required name="hidden" placeholder="Enter a word/s here..." id="word" type="text">
-            </div>
-            <button class="button" id="confirm-btn" onclick="convertButton()">CONFIRM</button>
-            <div>
-                ASCII code:
-                <span id="result"></span>
-            </div>
-        </form>
     </div>
     <div id="visualization">
         <div class="program-container">
+            <div class="header-details">
+                <div class="capacity">
+                    <span class="icon-image"><img src="images/layer.png" alt="capacity"></span>
+                    <span class="capacity-value">0/50</span>
+                </div>
+                <div class="clear">
+                    <span class="icon"><i class="fa-solid fa-xmark tooltip"><span class="tooltiptext">Clear</span></i></span>
+                </div>
+            </div>
+            <div class="description-guide">
+                <h3>Please enter the word/s in the input box.</h3>
+            </div>
+            <div class="hash-table">
 
+            </div>
         </div>
     </div>
 </main>
+<footer class="copyright">
+    <a class="author" target="_blank" href="https://knu09.github.io/v2.christiandelatorre/">
+        <div>@ Copyright 2024</div>
+        <div>Made by Christian De la Torre</div>
+    </a>
+</footer>
 </body>
 </html>

@@ -1,3 +1,15 @@
+
+@font-face {
+    font-family: "PP Supply Mono";
+    src: url(fonts/PPSupplyMono-Regular.otf) format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "PP Supply Mono";
+    src: url(fonts/PPSupplyMono-Ultralight.otf) format('truetype');
+    font-weight: normal;
+}
 *,
 ::before,
 ::after {
@@ -12,7 +24,8 @@ body {
 }
 
 .title-container {
-    margin-bottom: 20px;
+    max-width: 500px;
+    margin: 20px auto;
 }
 
 hr {
@@ -21,14 +34,14 @@ hr {
 }
 
 .form-container {
-    padding: 5em 20px;
-    margin: 0 auto;
-    max-width: 900px;
+    padding: 0 20px;
+    margin: 10px auto;
+    max-width: 1100px;
 }
 
 .title {
-    text-align: center;
     margin: 20px 0;
+    font-weight: 400;
 }
 
 #form {
@@ -39,7 +52,6 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px 0;
 }
 
 label, select, div, input, button {
@@ -81,7 +93,7 @@ select:hover {
 }
 
 .select-text-color {
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.8);
     font-weight: 400;
 }
 
@@ -105,7 +117,7 @@ select:hover {
 
 .input-container {
     position: relative;
-    margin: 20px 0;
+    margin: 8px 0 0;
 }
 
 .input-container label {
@@ -130,6 +142,7 @@ select:hover {
     border-radius: .5em;
     background-color: #2a2f3b;
     box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+    margin-top: 10px;
 }
 
 .button:hover {
@@ -138,23 +151,24 @@ select:hover {
 
 #visualization {
     margin: 0 auto;
-    padding: 0 30px;
-    max-width: 1200px;
+    padding: 0 20px 50px;
+    max-width: 1100px;
 }
 
 .program-container {
-    border: 2px solid #2a2f3b;
-    padding: 1.5em;
+    border: 3px solid #2a2f3b;
+    padding: 1.5em 1.5em 2.5em;
     border-radius: .5em;
 }
 
 .box {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: start;
     border: 3px solid #2a2f3b;
     border-radius: 20px;
-    max-width: 220px;
+    max-width: 180px;
     min-height: 66px;
     font-size: 14px;
     margin: 15px 0;
@@ -184,5 +198,152 @@ select:hover {
     overflow: hidden;
 }
 
+.bucket-chain {
+    margin: 0;
+    position: absolute;
+    top: -3px;
+}
 
 
+.bucket-chain::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 5px;
+    border-radius: 20px;
+    background-color: #2a2f3b;
+    top: 50%;
+    left: -10px;
+    transform: translate(-50%, -50%);
+}
+
+/* TOOLTIP */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+}
+
+.tooltip .tooltiptext {
+    opacity: 0;
+    width: 60px;
+    background-color: #2a2f3b;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12px;
+
+    /* Position the tooltip */
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    transition: 0.25s;
+}
+
+.tooltip:hover .tooltiptext {
+    opacity: 1;
+}
+
+/* TOOLTIP */
+
+.header-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-details div {
+    max-width: max-content;
+}
+
+.capacity {
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+}
+
+.icon-image img {
+    width: 25px;
+}
+
+.icon {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.description-guide h3 {
+    text-align: center;
+}
+
+.description-guide.hide {
+    display: none;
+}
+
+.hashing-details {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hashing-details div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px ;
+}
+
+.fa-file-code {
+    width: 20px;
+    font-size: 24px;
+}
+
+.fa-icon {
+    font-size: 20px;
+    color: #2a2f3b;
+}
+
+.key-value {
+    font-family: Poppins, sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+/* AUTHOR FOOTER SECTION */
+
+
+.copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5em;
+}
+
+.copyright .author {
+    font-family: "PP Supply Mono", sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: #000;
+    transition: 0.15s;
+}
+
+.copyright .author:hover {
+    color: #00bbff;
+}
+
+/* ERROR TRAPPING */
+
+.error-message {
+    opacity: 0;
+    color: rgba(255, 0, 0, 0.8);
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.error-message.active {
+    opacity: 1;
+}

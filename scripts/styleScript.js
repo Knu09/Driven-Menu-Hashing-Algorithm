@@ -29,5 +29,12 @@ selectClass.forEach(select => {
     })
 })
 
+const descriptionGuide = document.querySelector('.description-guide');
+function hideDescriptionGuide() {
+    descriptionGuide.classList.add('hide')
+}
 
+function activeDescriptionGuide() {
+    descriptionGuide.classList.remove('hide')
+}
 
