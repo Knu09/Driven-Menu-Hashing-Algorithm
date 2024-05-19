@@ -26,7 +26,7 @@ function convertASCII(word) {
 
     // Converts the ASCII which has a type of number to an array
     numberToArray(ASCII)
-
+    addHashBox();
 }
 function resetInput () {
     word.value = "";
@@ -180,10 +180,41 @@ function numberToArray(ASCII) {
 
 const myTable = new HashTable();
 
-myTable.setItem(2232, "Jack");
-myTable.setItem(2233, "Will")
-console.log(myTable.getItem(2232))
+HashTable.prototype.size = function () {
+    let count = 0;
+    for (let i = 0; i < myTable.table.length; i++) {
+        if(this.table[i]) {
+            count++;
+        }
+    }
+    return count;
+}
 
-console.log(myTable.table)
+// myTable.setItem(2232, "Christian Dela TOrre");
+// myTable.setItem(2233, "Will")
+
+// --- Data Visualization ---
+function addHashBox () {
+
+    const programContainer = document.querySelector('.program-container');
+    let boxHTML = '';
+
+    for (let i = 0; i < myTable.table.length; i++) {
+        if (myTable.table[i]) {
+            boxHTML +=
+                `
+            <div class="box">
+                <div class="key"><span>${i}</span></div>
+                <div class="value"><span>${myTable.table[i][1]}</span></div>
+            </div>
+        `
+        }
+    }
+
+    programContainer.innerHTML = boxHTML;
+}
+
+
+
 
 
