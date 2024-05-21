@@ -130,19 +130,18 @@ function midSquare(key) {
 
     let middleTwoDigits;
     if (keyStr.length % 2 === 0) {
-        middleTwoDigits = keyStr.substring(midIndex, midIndex + 1)
+        middleTwoDigits = keyStr.substring(midIndex - 1, midIndex + 1)
     } else {
         middleTwoDigits = keyStr[midIndex]
     }
-
     // Square the middle digit/s
     const squaredValue = Math.pow(parseInt(middleTwoDigits), 2).toString();
 
     const squaredMidIndex = Math.floor(squaredValue.length / 2);
-    const middleLeftDigit = squaredValue.length % 2 === 0 ?
-        squaredValue[squaredMidIndex - 1] : squaredValue[squaredMidIndex];
+    const middleSquared = Number(squaredValue.substring(squaredMidIndex - 1, squaredMidIndex + 1))
+    const dividedValue = Math.floor(middleSquared / 10);
 
-    return parseInt(middleLeftDigit);
+    return middleSquared < 49 ? middleSquared : dividedValue
 }
 
 function moduloArithmetic(key, prime) {
@@ -163,6 +162,7 @@ function bucketChaining(key, value, i, table) {
 
 function linearProbing(key, value, i, table) {
     let idx = i;
+    idx %= 49;
     if (table[idx] === undefined) {
         table[idx] = [key, value];
     } else {
@@ -170,18 +170,21 @@ function linearProbing(key, value, i, table) {
             idx++;
         }
     }
-    return table[idx] = [key, value];
+
+    table[idx] = [key, value];
+    return idx;
 }
 
 function secondHashFunction(key, value, i, table, prime) {
     let secondHashKey = secondHash(i, prime)
     let hash = i;
-    let idx = 0;
+    let idx = 1;
     while (table[hash] !== undefined) {
         idx++
         hash = (i + idx * secondHashKey) % table.length;
     }
-    return table[hash] = [key, value];
+    table[hash] = [key, value];
+    return hash;
 }
 
 
@@ -214,14 +217,18 @@ class HashTable {
     setItem = (key, value) => {
         const prime = 47;
         const idx = hashFunction(key, getHashFunction(), this.table.length, prime);
-
+        console.log(idx)
+        let hash;
+        hashKeyValue.innerText = idx;
         // Conduct a resolution if a collision occurs
         if (this.table[idx]) {
-            collisionResolution(this.table, idx, key, value, getCollisionsOption(), prime);
+            hash = collisionResolution(this.table, idx, key, value, getCollisionsOption(), prime);
+            hashKeyValue.innerText = hash;
         } else {
             this.table[idx] = [key, value]
         }
-        hashKeyValue.innerText = idx;
+
+
         capacityValue.innerText = `${capacitySize}/50`
         console.log(this.table)
     }

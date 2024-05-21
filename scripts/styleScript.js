@@ -38,3 +38,8 @@ function activeDescriptionGuide() {
     descriptionGuide.classList.remove('hide')
 }
 
+const inputWord = document.getElementById("word")
+const labelWord = document.querySelector('.label-word')
+
+inputWord.addEventListener('focus', () => {
+})

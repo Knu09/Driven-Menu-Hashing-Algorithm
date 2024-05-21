@@ -19,29 +19,58 @@
     line-height: calc(1em + 0.5em);
 }
 
+:root {
+   --clr-primary-dark-blue: #2a2f3b;
+   --clr-primary-bg-color: #1b1f2a;
+    --clr-primary-wrapper: #2C3039;
+    --clr-secondary-dark-blue: #1D212C;
+    --clr-primary-cyan: #01F2A4;
+    --clr-primary-blue:  #2F60F3;
+}
+
 body {
     font-family: Poppins, sans-serif;
+    background-color: var(--clr-primary-bg-color);
+    color: #fff;
 }
 
 .title-container {
+    display: flex;
+    flex-direction: row;
     max-width: 500px;
-    margin: 20px auto;
+    margin: 20px auto 40px;
 }
 
-hr {
-    border: 2px solid #2a2f3b;
+.line {
+    width: 100%;
+    height: 3px;
     border-radius: 20px;
+    background: linear-gradient(to right, var(--clr-primary-cyan), var(--clr-primary-blue));
 }
 
 .form-container {
     padding: 0 20px;
-    margin: 10px auto;
-    max-width: 1100px;
+    margin: 10px auto 50px;
+    max-width: 700px;
+}
+
+.vertical-line {
+    height: 183px;
+    width: 3px;
+    margin-right: 20px;
+    background: linear-gradient(180deg, var(--clr-primary-cyan),var(--clr-primary-blue));
 }
 
 .title {
-    margin: 20px 0;
-    font-weight: 400;
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+
+p {
+    font-family: Open Sans, sans serif;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 10px 0 0;
+    line-height: 25px;
 }
 
 #form {
@@ -67,7 +96,7 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     outline: 0;
-    padding: 15px;
+    padding: 20px 15px;
 
     /*border-left: 5px solid transparent;*/
     /*border-right: 5px solid transparent;*/
@@ -81,7 +110,7 @@ select {
     align-items: center;
     border-radius: 0.5em;
     font-weight: 600;
-    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+    box-shadow: 4px 4px 10px rgba(0,0,0,.3);
 }
 
 select:hover {
@@ -120,28 +149,55 @@ select:hover {
     margin: 8px 0 0;
 }
 
+#word {
+    border-radius: 30px;
+    border: none;
+    padding: 20px 20px;
+    color: #fff;
+    height: 70px;
+    background-color: var(--clr-secondary-dark-blue);
+}
+
+#word:focus {
+    outline: 1px solid rgba(255,255,255,0.5);
+}
+
 .input-container label {
     position: absolute;
-    text-align: center;
-    width: 100px;
-    top: -10px;
-    left: 10px;
-    background-color: #fff;
-    font-size: 14px;
+    text-align: left;
+    top: 24px;
+    left: 20px;
+    color: rgba(255,255,255,.45);
+    font-size: 16px;
+    font-weight: 300;
+    cursor: text;
+    transition: .25s;
+}
+
+#word:focus + .label-word,
+#word:valid + .label-word {
+    font-size: 12px;
+    top: 12px;
+}
+
+#word:focus,
+#word:valid {
+    padding-top: 23px ;
+    padding-bottom: 5px;
 }
 
 .button {
     font-family: Poppins, sans-serif;
-    padding: 14px 0;
-    font-size: 14px;
+    padding: 20px 0;
+    font-size: 18px;
     font-weight: 600;
-    color: #fff;
+    color: #ffffff;
     outline: 0;
     border: 0;
     cursor: pointer;
     border-radius: .5em;
     background-color: #2a2f3b;
-    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3);
     margin-top: 10px;
 }
 
@@ -156,9 +212,11 @@ select:hover {
 }
 
 .program-container {
+    background-color: var(--clr-primary-wrapper);
     border: 3px solid #2a2f3b;
     padding: 1.5em 1.5em 2.5em;
-    border-radius: .5em;
+    border-radius: 1em;
+    box-shadow: 10px 10px 20px 5px rgba(0,0,0,.35);
 }
 
 .box {
@@ -166,24 +224,33 @@ select:hover {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    border: 3px solid #2a2f3b;
+    background: linear-gradient(var(--clr-secondary-dark-blue), var(--clr-secondary-dark-blue)) padding-box,
+    linear-gradient(to right, var(--clr-primary-cyan),var(--clr-primary-blue)) border-box;
     border-radius: 20px;
+    border: 3px solid transparent;
+
     max-width: 180px;
-    min-height: 66px;
+    min-height: 75px;
     font-size: 14px;
     margin: 15px 0;
 }
 
 .key {
-    background-color: #2a2f3b;
+    position: relative;
+    background: var(--clr-primary-dark-blue);
     text-align: center;
     color: #fff;
-    padding: 20px;
-    min-width: 58px;
+    min-width: 34px;
     flex: 1;
     border-radius: 15px 0 0 15px;
     font-weight: 600;
-    border-right: 3px solid #2a2f3b;
+    font-size: 16px;
+}
+
+.key span {
+    position: absolute;
+    left: 12px;
+    top: 8px;
 }
 
 .value {
@@ -196,6 +263,7 @@ select:hover {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    word-break: break-all;
 }
 
 .bucket-chain {
@@ -208,12 +276,12 @@ select:hover {
 .bucket-chain::before {
     content: '';
     position: absolute;
-    width: 30px;
+    width: 26px;
     height: 5px;
     border-radius: 20px;
-    background-color: #2a2f3b;
+    background: linear-gradient(to left, var(--clr-primary-cyan), var(--clr-primary-blue));
     top: 50%;
-    left: -10px;
+    left: -14px;
     transform: translate(-50%, -50%);
 }
 
@@ -228,7 +296,7 @@ select:hover {
 .tooltip .tooltiptext {
     opacity: 0;
     width: 60px;
-    background-color: #2a2f3b;
+    background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -238,7 +306,7 @@ select:hover {
     /* Position the tooltip */
     position: absolute;
     transform: translate(-50%, -50%);
-    top: 100%;
+    top: 110%;
     left: 0;
     z-index: 1;
     transition: 0.25s;
@@ -265,8 +333,8 @@ select:hover {
     gap: 0 10px;
 }
 
-.icon-image img {
-    width: 25px;
+.icon-image .capacity {
+    font-size: 25px;
 }
 
 .icon {
@@ -274,8 +342,14 @@ select:hover {
     font-size: 30px;
 }
 
+.description-guide {
+    width: max-content;
+    margin: 0 auto;
+}
+
 .description-guide h3 {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .description-guide.hide {
@@ -283,7 +357,7 @@ select:hover {
 }
 
 .hashing-details {
-    margin-top: 15px;
+    margin-top: 35px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -303,13 +377,14 @@ select:hover {
 
 .fa-icon {
     font-size: 20px;
-    color: #2a2f3b;
+    color: #fff;
 }
 
 .key-value {
     font-family: Poppins, sans-serif;
     font-weight: 800;
     font-size: 16px;
+    word-break: break-all;
 }
 
 /* AUTHOR FOOTER SECTION */
@@ -327,12 +402,13 @@ select:hover {
     font-weight: 600;
     text-decoration: none;
     text-align: center;
-    color: #000;
-    transition: 0.15s;
+    color: #FFFFFF99;
+    transition: 0.50s;
 }
 
 .copyright .author:hover {
-    color: #00bbff;
+    transform: translateY(-5px);
+    color: #00FFF8;
 }
 
 /* ERROR TRAPPING */
