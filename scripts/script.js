@@ -2,8 +2,12 @@
 const word = document.getElementById("word");
 function convertButton () {
     errorTrapping();
+    if (isFull()) {
+        displayFullCapacity();
+    }
+
     if (!errorMessage.classList.contains('active') && !errorMessage2.classList.contains('active')
-    && !errorMessage3.classList.contains('active')) {
+        && !errorMessage3.classList.contains('active')) {
         hideDescriptionGuide();
         convertASCII(word.value);
     }
@@ -23,9 +27,10 @@ function convertASCII(word) {
     console.log(ASCII)
     code.innerHTML = BigInt(ASCII);
 
-    myTable.setItem(ASCII, word);
-    capacitySize++;
-
+    if (!isFull()) {
+        myTable.setItem(ASCII, word);
+        capacitySize++;
+    }
     //Resets the input value
     resetInput();
 
@@ -59,6 +64,10 @@ function errorTrapping() {
     } else {
         errorMessage3.classList.remove('active')
     }
+
+    if (isFull()) {
+        console.log("is full")
+    }
 }
 
 const hashFunctionOption = document.getElementById("hashFunctions");
@@ -76,7 +85,7 @@ function hashFunction(key, hashFunc, tableSize, prime) {
         case "0":
             return defaultHash(key);
         case '1':
-            return addAndFold(key, tableSize)
+            return addAndFold(key, 50)
         case '2':
             return digitSelect(key)
         case '3':
@@ -141,7 +150,7 @@ function midSquare(key) {
     const middleSquared = Number(squaredValue.substring(squaredMidIndex - 1, squaredMidIndex + 1))
     const dividedValue = Math.floor(middleSquared / 10);
 
-    return middleSquared < 49 ? middleSquared : dividedValue
+    return middleSquared < 50 ? middleSquared : dividedValue
 }
 
 function moduloArithmetic(key, prime) {
@@ -154,6 +163,7 @@ function moduloArithmetic(key, prime) {
 
 function bucketChaining(key, value, i, table) {
     if (table[i]) {
+        capacitySize--;
         return table[i].push([key, value]);
     } else {
         return table[i] = [[key, value]]
@@ -181,12 +191,19 @@ function secondHashFunction(key, value, i, table, prime) {
     let idx = 1;
     while (table[hash] !== undefined) {
         idx++
-        hash = (i + idx * secondHashKey) % table.length;
+        hash = (firstHash(i, 50) + idx * secondHashKey) % table.length;
+        if (idx === 4) {
+            hash = linearProbing(key, value, i, table);
+            break;
+        }
     }
     table[hash] = [key, value];
     return hash;
 }
 
+function firstHash(i, tableSize) {
+    return i % tableSize;
+}
 
 function secondHash(key, prime) {
     let hash = prime - (key % prime);
@@ -202,12 +219,22 @@ const capacityValue = document.querySelector('.capacity-value')
 let capacitySize = 1;
 clearButton.addEventListener('click',() => {
     activeDescriptionGuide()
+    capacityValue.style.color = "#fff"
     capacityValue.innerText = `0/50`
     capacitySize = 1;
     myTable.table = [];
     programContainer.innerHTML = ``;
 })
 
+function isFull() {
+    if (capacitySize > 50) {
+        return true;
+    }
+}
+
+function displayFullCapacity () {
+    capacityValue.style.color = "red";
+}
 
 
 class HashTable {
